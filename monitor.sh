@@ -12,3 +12,5 @@ echo "memory usage check running"
 echo "Sytem uptime check running"
 
 echo "disk alert monitoring active"
+
+echo "CPU alert monitoring active"

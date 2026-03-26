@@ -1,17 +1,18 @@
 name: Run Monitor Script
 
-on: [push]
+on:
+  push:
 
 jobs:
   run-script:
     runs-on: ubuntu-latest
 
    steps:
-   - name: Checkout code
-     uses: actions/checkout@v3
+     - name: Checkout code
+       uses: actions/checkout@v3
 
-   - name: Make script executable
-     run: chmod +x monitor.sh
+     - name: Make script executable
+       run: chmod +x monitor.sh
 
-   - name: Run script
-     run: ./monitor.sh
+     - name: Run script
+       run: ./monitor.sh

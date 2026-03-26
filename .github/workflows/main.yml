@@ -1,10 +1,9 @@
 name: Run Monitor Script
 
-on:
-  push:
+on: [push]
 
 jobs:
-  run-script:
+  run-scrip:
     runs-on: ubuntu-latest
 
    steps:

@@ -1,16 +1,16 @@
 #/bin/bash
+
 echo "Server monitoring script"
 
-echo "checking disk usage"
+# Get CPU load
+CPU_LOAD=$(top -bn1 | grep "load average" | awk '{print $10}' | sed 's/,//')
 
-echo "new feature:CPU check coming soon"
+echo "Current CPU Load: $CPU_LOAD"
 
-echo "add cpu usage check"
+# Check CPU load
+if (( $(echo "$CPU_LOAD > 1.00" | bc -1) )); then
+   echo "ALERT: High CPU load!"
+else
+   echo "CPU load is normal"
+fi
 
-echo "memory usage check running"
-
-echo "Sytem uptime check running"
-
-echo "disk alert monitoring active"
-
-echo "CPU alert monitoring active"

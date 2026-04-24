@@ -1,35 +1,46 @@
 #/bin/bash
 
-echo "Server monitoring script"
+echo "=============================="
+echo "   SERVER MONITORING SYSTEM   "
+echo "=============================="
 
-# Get CPU load
-CPU_LOAD=$(top -bn1 | grep "load average" | awk '{print $10}' | sed 's/,//')
+# CPU CHECK FUNCTION
+check_cpu() {
+    CPU_LOAD=$(top -bn1 | grep "load average" | awk '{print $10}' | sed 's/,//')
+    echo  "Current CPU Load: $CPU_LOAD"
 
-echo "Current CPU Load: $CPU_LOAD"
+    CPU_INT=$(printf "%.0f" "$CPU_LOAD")
 
-# Convert CPU to integer
-CPU_INT=$(printf "%.0f" "$CPU_LOAD")
+      if [ "$CPU_INT" -gt 1 ]; then
+          echo "ALERT: High CPU load!"
+      else
+          echo "CPU load is normal"
+      fi
+}
 
-# Check CPU load
-if [ "$CPU_INT" -gt 1 ]; then
-   echo "ALERT: High CPU load!"
-else
-   echo "CPU load is normal"
-fi
+echo "------------------------------"
 
-echo "------------------------"
+# MEMORY CHECK FUNCTION
+check_memory() {
+    MEMORY_USAGE=$(free | grep Mem | awk '{print $3/$2 * 100.0}')
+    echo "Current Memory Usage: $MEMORY_USAGE%"
 
-# MEMORY CHECK
-MEMORY_USAGE=$(free | grep Mem | awk '{print $3/$2 * 100.0}')
+    MEM_INT=$(printf "%.0f" "$MEMORY_USAGE")
 
-echo "Current Memory Usage:$MEMORY_USAGE%"
+    if [ "$MEM_INT" -gt 50 ];then
+        echo "ALERT: High memory usage!"
+    else
+        echo "Memory usage is normal"
+    fi
+}
 
-# Convert Memory to integer
-MEM_INT=$(printf "%.0f" "$MEMORY_USAGE")
+echo "------------------------------"
 
-# Check memory usage
-if [ "$MEM_INT" -gt 50 ]; then
-    echo "ALERT: High memory usage!"
-else
-    echo "Memory usage is normal"
-fi
+# RUN CHECKS
+check_cpu
+echo "------------------------------"
+check_memory
+
+echo "=============================="
+echo "    Monitoring Completed"
+echo "=============================="

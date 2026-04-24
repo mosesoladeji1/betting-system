@@ -1,0 +1,45 @@
+const express = require("express");
+const app = express();
+app.uses(express.json());
+
+const PORT = 5000;
+
+// CORS (VERY IMPORTANT)
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  next();
+});
+
+// DATA
+const tickets = [
+  {
+    type: "Double",
+    games: [
+      { match: "Arsenal vs Chelsea", tip: "GG", odds: 1.85 },
+      { match: "Madrid vs Barca", tip: "Over 2.5", odds: 1.72 }
+    ],
+    totalOdds: 3.18,
+    result: "WIN"
+  },
+  {
+    type: "Single",
+    games: [
+      { match: "Man City vs Liverpool", tip: "Over 3.5", odds: 2.10 }
+    ],
+    totalOdds: 2.10,
+    result: "LOSS"
+  }
+];
+
+// ROUTE
+app.get("/tips", (req, res) => {
+  res.json(tickets);
+});
+
+// SERVER
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+
+

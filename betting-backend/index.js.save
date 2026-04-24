@@ -1,0 +1,24 @@
+const express = require("express");
+const app = express();
+
+const PORT = 5000;
+
+// ✅ CORS
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  next();
+});
+
+// ✅ Betting data (fake database)
+const tips = [
+  { match: "Arsenal vs Chelsea", tip: "GG", odds:1.85 },
+
+// ✅ API route
+app.get("/tips", (req, res) => {
+  res.json(tips);
+});
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on port ${PORT}`);
+});
+

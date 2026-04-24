@@ -1,0 +1,24 @@
+name: Deploy App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to Server via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 192.168.17.130
+          username: cloudadmin
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ~/develops-project
+            git pull origin main
+            docker-compose down
+            docker-compose up -d --build
+
